@@ -12,14 +12,17 @@ import React from 'react';
 import {
   SafeAreaView,
   StatusBar,
-  //StyleSheet,
+  StyleSheet,
   useColorScheme,
 } from 'react-native';
+import {NavigationContainer} from '@react-navigation/native';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import Home from './src/routes/Home';
-import Login from './src/routes/Login';
-import Settings from './src/routes/Settings';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+
+const Stack = createNativeStackNavigator();
 
 const App = () => {
   const isDarkMode = useColorScheme() === 'dark';
@@ -29,32 +32,23 @@ const App = () => {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <Login />
-      <Home />
-      <Settings />
-    </SafeAreaView>
+    <SafeAreaProvider>
+      <SafeAreaView style={[styles.safeAreaView, backgroundStyle]}>
+        <NavigationContainer>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <Stack.Navigator>
+            <Stack.Screen name="Home" component={Home} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </SafeAreaView>
+    </SafeAreaProvider>
   );
 };
 
-/*const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
+const styles = StyleSheet.create({
+  safeAreaView: {
+    flex: 1,
   },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});*/
+});
 
 export default App;

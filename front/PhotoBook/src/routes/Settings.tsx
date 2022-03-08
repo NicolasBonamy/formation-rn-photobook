@@ -4,7 +4,7 @@ import {Text, View} from 'react-native';
 const Settings = () => {
   return (
     <View>
-      <Text> Settings works!</Text>
+      <Text>Settings works!</Text>
     </View>
   );
 };
