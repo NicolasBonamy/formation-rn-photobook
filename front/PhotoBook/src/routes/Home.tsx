@@ -1,34 +1,30 @@
-import React, {useState} from 'react';
-import {Button, StyleSheet, Text, View} from 'react-native';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import React from 'react';
+import Legal from './Legal';
+import Settings from './Settings';
+import Wall from './Wall';
+
+const Tab = createBottomTabNavigator();
 
 const Home = () => {
-  const [counter, setCounter] = useState(0);
   return (
-    <View style={styles.container}>
-      <Text>Home works!</Text>
-      <Text>Counter: {counter}</Text>
-      <Button
-        title="increment"
-        onPress={() => {
-          setCounter(counter + 1);
-        }}
-      />
-      <Button
-        title="decrement"
-        onPress={() => {
-          setCounter(counter - 1);
-        }}
-      />
-    </View>
+    <Tab.Navigator
+      screenOptions={() => ({
+        headerShown: false,
+      })}>
+      <Tab.Screen name="Wall" component={Wall} />
+      <Tab.Screen name="Legal" component={Legal} />
+      <Tab.Screen name="Settings" component={Settings} />
+    </Tab.Navigator>
   );
 };
 
-const styles = StyleSheet.create({
-  container: {
-    height: '100%',
-    justifyContent: 'center',
-    padding: 10,
-  },
-});
+// const styles = StyleSheet.create({
+//   container: {
+//     height: '100%',
+//     justifyContent: 'center',
+//     padding: 10,
+//   },
+// });
 
 export default Home;

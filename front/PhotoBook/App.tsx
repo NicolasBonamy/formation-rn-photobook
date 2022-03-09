@@ -19,8 +19,10 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
+import ErrorBoundary from './src/ErrorBoundaries';
 import Home from './src/routes/Home';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
+import Login from './src/routes/Login';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,12 +36,19 @@ const App = () => {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={[styles.safeAreaView, backgroundStyle]}>
-        <NavigationContainer>
-          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-          <Stack.Navigator>
-            <Stack.Screen name="Home" component={Home} />
-          </Stack.Navigator>
-        </NavigationContainer>
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <ErrorBoundary>
+          <NavigationContainer>
+            <Stack.Navigator
+              initialRouteName={'Home'}
+              screenOptions={{
+                headerShown: false,
+              }}>
+              <Stack.Screen name="Home" component={Home} />
+              <Stack.Screen name="Login" component={Login} />
+            </Stack.Navigator>
+          </NavigationContainer>
+        </ErrorBoundary>
       </SafeAreaView>
     </SafeAreaProvider>
   );
