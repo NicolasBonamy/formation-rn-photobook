@@ -8,6 +8,7 @@
  * @format
  */
 
+import {NavigationContainer} from '@react-navigation/native';
 import React from 'react';
 import {
   SafeAreaView,
@@ -15,21 +16,17 @@ import {
   StyleSheet,
   useColorScheme,
 } from 'react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-import {Colors} from 'react-native/Libraries/NewAppScreen';
-import ErrorBoundary from './src/ErrorBoundaries';
-import Home from './src/routes/Home';
-import {SafeAreaProvider} from 'react-native-safe-area-context';
-import Login from './src/routes/Login';
 import {ThemeProvider} from 'react-native-elements';
+import {SafeAreaProvider} from 'react-native-safe-area-context';
+import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {Provider} from 'react-redux';
+import ErrorBoundary from './src/ErrorBoundaries';
+import {Stack} from './src/navigation';
+import {useAppSelector} from './src/redux/hooks';
+import {selectAuthentication} from './src/redux/slices/authentication.slice';
 import {store} from './src/redux/store';
-import { useAppSelector } from './src/redux/hooks';
-import { selectAuthentication } from './src/redux/slices/authentication.slice';
-
-const Stack = createNativeStackNavigator();
+import Home from './src/routes/Home';
+import Login from './src/routes/Login';
 
 const App = () => {
   return (
@@ -41,7 +38,6 @@ const App = () => {
 
 const ReduxApp = () => {
   const isDarkMode = useColorScheme() === 'dark';
-
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
@@ -75,6 +71,23 @@ const styles = StyleSheet.create({
   safeAreaView: {
     flex: 1,
   },
+  sectionContainer: {
+    marginTop: 32,
+    paddingHorizontal: 24,
+  },
+  sectionTitle: {
+    fontSize: 24,
+    fontWeight: '600',
+  },
+  sectionDescription: {
+    marginTop: 8,
+    fontSize: 18,
+    fontWeight: '400',
+  },
+  highlight: {
+    fontWeight: '700',
+  },
 });
+console.log('styles: ', styles);
 
 export default App;

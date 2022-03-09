@@ -35,7 +35,7 @@ export class Api {
   }
 
   async getArticles() {
-    const response = await fetch(apiUrl + '/articles');
+    const response = await authFetch(apiUrl + '/articles', {});
     return await response.json();
   }
 

@@ -1,22 +1,31 @@
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import React from 'react';
-import { Icon } from 'react-native-elements';
+import React, {useEffect} from 'react';
+import {Icon} from 'react-native-elements';
+import {ScreenProps} from '../navigation';
+import {useAppSelector} from '../redux/hooks';
+import {selectAuthentication} from '../redux/slices/authentication.slice';
 import Legal from './Legal';
 import Settings from './Settings';
 import Wall from './Wall';
 
 const Tab = createBottomTabNavigator();
 
-const Home = () => {
+const Home = ({navigation}: ScreenProps<'Home'>) => {
+  const authentication = useAppSelector(selectAuthentication);
+  useEffect(() => {
+    if (authentication.user === undefined) {
+      navigation.navigate('Login');
+    }
+  }, [navigation, authentication]);
   return (
     <Tab.Navigator
       screenOptions={({route}) => ({
         headerShown: false,
-        tabBarIcon: ({ focused, color, size }) => {
+        tabBarIcon: ({color}) => {
           let name = '';
           switch (route.name) {
             case 'Wall':
-              name = 'newspaper';
+              name = 'cat';
               break;
             case 'Legal':
               name = 'balance-scale';
@@ -24,25 +33,17 @@ const Home = () => {
             case 'Settings':
               name = 'cog';
               break;
+            default:
+              break;
           }
-          // let iconName;
-
-          // if (route.name === 'Home') {
-          //   iconName = focused
-          //     ? 'ios-information-circle'
-          //     : 'ios-information-circle-outline';
-          // } else if (route.name === 'Settings') {
-          //   iconName = focused ? 'ios-list-box' : 'ios-list';
-          // }
 
           // You can return any component that you like here!
-          //return <Ionicons name={iconName} size={size} color={color} />;
           return (
             <Icon
-              type="font-awesome-5"
               name={name}
-              color={color}
+              type="font-awesome-5"
               tvParallaxProperties={undefined}
+              color={color}
             />
           );
         },
@@ -58,9 +59,10 @@ const Home = () => {
 
 // const styles = StyleSheet.create({
 //   container: {
-//     height: '100%',
+//     flex: 1,
 //     justifyContent: 'center',
 //     padding: 10,
+//     backgroundColor: 'yellow',
 //   },
 // });
 
