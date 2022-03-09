@@ -24,15 +24,29 @@ import Home from './src/routes/Home';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Login from './src/routes/Login';
 import {ThemeProvider} from 'react-native-elements';
+import {Provider} from 'react-redux';
+import {store} from './src/redux/store';
+import { useAppSelector } from './src/redux/hooks';
+import { selectAuthentication } from './src/redux/slices/authentication.slice';
 
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+  return (
+    <Provider store={store}>
+      <ReduxApp />
+    </Provider>
+  );
+};
+
+const ReduxApp = () => {
   const isDarkMode = useColorScheme() === 'dark';
 
   const backgroundStyle = {
     backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
   };
+
+  const authentication = useAppSelector(selectAuthentication);
 
   return (
     <ThemeProvider>
@@ -42,7 +56,7 @@ const App = () => {
           <ErrorBoundary>
             <NavigationContainer>
               <Stack.Navigator
-                initialRouteName={'Home'}
+                initialRouteName={authentication.user ? 'Home' : 'Login'}
                 screenOptions={{
                   headerShown: false,
                 }}>
