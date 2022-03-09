@@ -23,6 +23,7 @@ import ErrorBoundary from './src/ErrorBoundaries';
 import Home from './src/routes/Home';
 import {SafeAreaProvider} from 'react-native-safe-area-context';
 import Login from './src/routes/Login';
+import {ThemeProvider} from 'react-native-elements';
 
 const Stack = createNativeStackNavigator();
 
@@ -34,23 +35,25 @@ const App = () => {
   };
 
   return (
-    <SafeAreaProvider>
-      <SafeAreaView style={[styles.safeAreaView, backgroundStyle]}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-        <ErrorBoundary>
-          <NavigationContainer>
-            <Stack.Navigator
-              initialRouteName={'Home'}
-              screenOptions={{
-                headerShown: false,
-              }}>
-              <Stack.Screen name="Home" component={Home} />
-              <Stack.Screen name="Login" component={Login} />
-            </Stack.Navigator>
-          </NavigationContainer>
-        </ErrorBoundary>
-      </SafeAreaView>
-    </SafeAreaProvider>
+    <ThemeProvider>
+      <SafeAreaProvider>
+        <SafeAreaView style={[styles.safeAreaView, backgroundStyle]}>
+          <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+          <ErrorBoundary>
+            <NavigationContainer>
+              <Stack.Navigator
+                initialRouteName={'Home'}
+                screenOptions={{
+                  headerShown: false,
+                }}>
+                <Stack.Screen name="Home" component={Home} />
+                <Stack.Screen name="Login" component={Login} />
+              </Stack.Navigator>
+            </NavigationContainer>
+          </ErrorBoundary>
+        </SafeAreaView>
+      </SafeAreaProvider>
+    </ThemeProvider>
   );
 };
 
